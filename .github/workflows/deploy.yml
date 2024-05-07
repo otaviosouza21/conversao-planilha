@@ -1,0 +1,28 @@
+name: Build and Deploy
+on:
+  push:
+    branches:
+      - master  # Mude para main se seu branch principal for main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Setup Node
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'  # Use a versão do Node que você prefere
+
+    - name: Install dependencies
+      run: npm install  # ou 'yarn' se você usa yarn
+
+    - name: Build
+      run: npm run build  # ou 'yarn build' se você usa yarn
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./dist
